@@ -1,0 +1,31 @@
+version: 0.2
+
+# This CodeBuild project is run manually, on demand.
+# Its only job is to execute the Python entry point
+# (application-infrastructure/src/main.py), which will read the campaign JSON
+# file from the repository and post it to Cascade CMS.
+#
+# This file lives at the repository root because the pipeline's CodeBuild
+# project is configured with BuildSpec = "buildspec.yml" (resolved relative to
+# the source root). The actual application code remains under
+# application-infrastructure/.
+#
+# BUILD ENVIRONMENT VARIABLES are supplied by the Pipeline/CodeBuild project.
+# You can view them in the AWS Console (CodeBuild > Projects > [build run] >
+# Environment Variables) or by running `printenv` during a build.
+
+phases:
+  install:
+    runtime-versions:
+      python: latest
+    commands:
+      # Build environment information for debugging purposes
+      - python3 --version
+
+  build:
+    commands:
+      # Run the on-demand job. The script uses only the Python standard
+      # library, so there is nothing to pip install.
+      # The script's exit code determines whether the build passes or fails.
+      - cd application-infrastructure
+      - python3 src/main.py
