@@ -16,7 +16,7 @@ logger = logging.getLogger("cascade-publisher")
 
 def main() -> int:
     """Run the on-demand job. Returns the process exit code (0 = success)."""
-    logger.info("Hello world from CodeBuild.")
+    logger.info("Hello world from CodeBuild!")
     return 0
 
 
