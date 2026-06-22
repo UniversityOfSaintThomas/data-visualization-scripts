@@ -1,0 +1,127 @@
+{
+  "meta": {
+    "generated_at": "2026-05-11T18:43:38Z",
+    "campaign_name": "The Campaign for St. Thomas - Be Brilliant. Be Bold."
+  },
+  "tracking_momentum": {
+    "philanthropic_giving": {
+      "label": "Philanthropic Giving",
+      "value": 756452472.67,
+      "goal": 1000000000,
+      "pct_label": "75.6%",
+      "pct_number": 75.6
+    },
+    "acts_of_engagement": {
+      "label": "Acts of Engagement",
+      "value": 493174,
+      "goal": 1000000,
+      "pct_label": "49.3%",
+      "pct_number": 49.3
+    },
+    "tommies_friends_activated": {
+      "label": "Tommies & Friends Activated",
+      "value": 86049,
+      "goal": 100000,
+      "pct_label": "86%",
+      "pct_number": 86
+    }
+  },
+  "progress_by_college_school": [
+    {
+      "unit": "College of Arts&Sciences",
+      "commitments": 59234207.94,
+      "goal": 75000000,
+      "goal_tbd": false,
+      "pct_label": "79%",
+      "pct_number": 79
+    },
+    {
+      "unit": "Dougherty Family College",
+      "commitments": 74099907.06,
+      "goal": 90000000,
+      "goal_tbd": false,
+      "pct_label": "82.3%",
+      "pct_number": 82.3
+    },
+    {
+      "unit": "Morrison Family College of Health",
+      "commitments": 29508712.95,
+      "goal": 50000000,
+      "goal_tbd": false,
+      "pct_label": "59%",
+      "pct_number": 59
+    },
+    {
+      "unit": "Opus College of Business",
+      "commitments": 92774416.26,
+      "goal": 110000000,
+      "goal_tbd": false,
+      "pct_label": "84.3%",
+      "pct_number": 84.3
+    },
+    {
+      "unit": "School of Education",
+      "commitments": 14538401.27,
+      "goal": 20000000,
+      "goal_tbd": false,
+      "pct_label": "72.7%",
+      "pct_number": 72.7
+    },
+    {
+      "unit": "School of Engineering",
+      "commitments": 18087391.6,
+      "goal": 50000000,
+      "goal_tbd": false,
+      "pct_label": "36.2%",
+      "pct_number": 36.2
+    },
+    {
+      "unit": "School of Law",
+      "commitments": 11454829.31,
+      "goal": 37000000,
+      "goal_tbd": false,
+      "pct_label": "31%",
+      "pct_number": 31
+    }
+  ],
+  "philanthropic_giving_by_area": {
+    "total_raised": 756452472.67,
+    "areas": [
+      {
+        "area": "Colleges & Schools",
+        "commitments": 299697866.39,
+        "goal": 432000000,
+        "pct_label": "69.4%",
+        "pct_number": 69.4
+      },
+      {
+        "area": "Central Scholarships",
+        "commitments": 142645517.35,
+        "goal": 177500000,
+        "pct_label": "80.4%",
+        "pct_number": 80.4
+      },
+      {
+        "area": "Other Central Priorities",
+        "commitments": 91266610.37,
+        "goal": 5500000,
+        "pct_label": "100%",
+        "pct_number": 100
+      },
+      {
+        "area": "Facilities",
+        "commitments": 60018970.32,
+        "goal": 60000000,
+        "pct_label": "100%",
+        "pct_number": 100
+      },
+      {
+        "area": "Intercollegiate Athletics",
+        "commitments": 162823508.24,
+        "goal": 325000000,
+        "pct_label": "50.1%",
+        "pct_number": 50.1
+      }
+    ]
+  }
+}
