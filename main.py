@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 """Upsert (overwrite) campaign_standing.json into a Cascade CMS folder."""
 
-import base64
 import json
 import logging
 import os
@@ -20,7 +19,6 @@ SITE_NAME = "Give"
 PARENT_FOLDER_PATH = "_media-library/documents/comprehensive-campaign"
 FILE_NAME = "campaign_standing.json"
 ASSET_PATH = f"{PARENT_FOLDER_PATH}/{FILE_NAME}"
-USERNAME = "restservices"        # Basic auth user; password is the API key
 TIMEOUT = 30
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s %(levelname)s %(message)s")
@@ -42,7 +40,7 @@ def main() -> int:
     text = open(LOCAL_FILE, encoding="utf-8").read()
     json.loads(text)  # fail fast if the local file isn't valid JSON
 
-    auth = "Basic " + base64.b64encode(f"{USERNAME}:{get_key()}".encode()).decode()
+    auth = "Bearer " + get_key()
 
     # Find the existing file so we overwrite it instead of creating a duplicate.
     read_url = f"{BASE_URL}/api/v1/read/file/{SITE_NAME}/{urllib.parse.quote(ASSET_PATH)}"
