@@ -1,8 +1,8 @@
 version: 0.2
 
 # This CodeBuild project is run manually, on demand.
-# Its only job is to execute the Python entry point (main.py), which will read
-# the campaign JSON file from the repository and post it to Cascade CMS.
+# Its only job is to execute the Python entry point (main.py), which reads the
+# campaign JSON file from the repository and upserts it into Cascade CMS.
 #
 # The pipeline's CodeBuild project is configured with BuildSpec = "buildspec.yml"
 # (resolved relative to the source root), so this file and main.py live at the
@@ -11,25 +11,12 @@ version: 0.2
 # BUILD ENVIRONMENT VARIABLES are supplied by the Pipeline/CodeBuild project.
 # You can view them in the AWS Console (CodeBuild > Projects > [build run] >
 # Environment Variables) or by running `printenv` during a build.
-
-# CodeBuild fetches and decrypts this SSM SecureString and injects it into the
-# CASCADE_API_KEY environment variable BEFORE any phase runs (the value is
-# masked in build logs). main.py / utils/services.py read os.environ first, so
-# no code change is needed. The parameter must already exist (create it once
-# with `aws ssm put-parameter --type SecureString ...`); env.parameter-store
-# resolves at startup and cannot bootstrap a missing parameter.
 #
-# NOTE: replace the parameter name below with your real SSM path. It must be a
-# literal name here (it is resolved before shell variables are available, so
-# ${PARAM_STORE_HIERARCHY} interpolation does NOT work in this block).
-#
-# TEMPORARILY DISABLED: env.parameter-store resolves at startup, and an
-# out-of-hierarchy name causes an AccessDenied that fails the build immediately.
-# Re-enable once the parameter exists under a path the CodeBuild role can read
-# (use the PARAM_STORE_HIERARCHY printed below).
-# env:
-#   parameter-store:
-#     CASCADE_API_KEY: /cascade/give/CascadeApiKey
+# The Cascade API key is stored as an SSM SecureString under the parameter-store
+# hierarchy the CodeBuild role is already allowed to read
+# (${PARAM_STORE_HIERARCHY}, e.g. /sam-sandbox/<STAGE>/<prefix>-<projectid>-<stageid>/).
+# We fetch it with the AWS CLI in the build phase (where ${...} expands) rather
+# than via env.parameter-store, which cannot interpolate the hierarchy.
 
 phases:
   install:
@@ -38,15 +25,15 @@ phases:
     commands:
       # Build environment information for debugging purposes
       - python3 --version
-      # TEMP: discover the parameter-store hierarchy and related build vars so
-      # we can place the SSM SecureString under a path the role is allowed to read.
-      - echo "----- printenv (temporary, for SSM hierarchy discovery) -----"
-      - printenv | sort
-      - echo "PARAM_STORE_HIERARCHY=${PARAM_STORE_HIERARCHY}"
+      - aws --version
 
   build:
     commands:
-      # Run the on-demand job. The script uses only the Python standard
-      # library, so there is nothing to pip install.
+      # Fetch + decrypt the Cascade API key from SSM into CASCADE_API_KEY.
+      # main.py / utils/services.py read this env var first (then fall back to
+      # .env for local dev). The role already has read access to this hierarchy.
+      # The resolved value is never echoed, so it stays out of the build log.
+      - export CASCADE_API_KEY=$(aws ssm get-parameter --name "${PARAM_STORE_HIERARCHY}CascadeApiKey" --with-decryption --query Parameter.Value --output text)
+      # Run the on-demand job. Uses only the Python standard library.
       # The script's exit code determines whether the build passes or fails.
       - python3 main.py
