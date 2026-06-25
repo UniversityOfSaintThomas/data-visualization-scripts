@@ -12,6 +12,20 @@ version: 0.2
 # You can view them in the AWS Console (CodeBuild > Projects > [build run] >
 # Environment Variables) or by running `printenv` during a build.
 
+# CodeBuild fetches and decrypts this SSM SecureString and injects it into the
+# CASCADE_API_KEY environment variable BEFORE any phase runs (the value is
+# masked in build logs). main.py / utils/services.py read os.environ first, so
+# no code change is needed. The parameter must already exist (create it once
+# with `aws ssm put-parameter --type SecureString ...`); env.parameter-store
+# resolves at startup and cannot bootstrap a missing parameter.
+#
+# NOTE: replace the parameter name below with your real SSM path. It must be a
+# literal name here (it is resolved before shell variables are available, so
+# ${PARAM_STORE_HIERARCHY} interpolation does NOT work in this block).
+env:
+  parameter-store:
+    CASCADE_API_KEY: /cascade/give/CascadeApiKey
+
 phases:
   install:
     runtime-versions:
